@@ -13,7 +13,7 @@ int main() {
 
     int nNum = 100000;
     clock_t startTime, endTime;
-    vector<int> vecRandNum0 = generateRandomNum(nNum);
+    vector<int> vecRandNum0{3, 2, 1}; //= generateRandomNum(nNum);
     vector<int> vecRandNum1 = duplicateVect(vecRandNum0);
     vector<int> vecRandNum2 = duplicateVect(vecRandNum0);
     SortingMethod sortingMethod;
