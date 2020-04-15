@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "InsertSorting.h"
+
+#include <ctime>
 #include <iostream>
 #include <vector>
 
@@ -20,10 +23,22 @@ public:
         _nonrecursiveMergeSort(inputVec, 0, inputVec.size() - 1);
     }
 
+    void primitiveQuickSort(vector<int>& inputVec) {
+        _quickSort(inputVec, 0, inputVec.size() - 1);
+    }
+
+    void optimizedQuickSort(vector<int>& inputVec) {
+        srand(time(NULL));
+        _optimizedQuickSort(inputVec, 0, inputVec.size() - 1);
+    }
+
+    void quickSort2(vector<int>& inputVec) {
+
+    }
 
 private:
-    // the range is [l, r]
     void _recursiveMergeSort(vector<int>& inputVec, int l, int r) {
+        // the range is [l, r]
         if (l >= r)
             return;
         int mid = l + (r - l) / 2;
@@ -33,8 +48,8 @@ private:
             _merge(inputVec, l, mid, r);
     }
 
-    // the interval is defined as [l, mid] and [mid+1, r]
     void _merge(vector<int>& inputVec, int l, int mid, int r) {
+        // the interval is defined as [l, mid] and [mid+1, r]
         vector<int> tempVec;
         for (int i = l; i <= r; ++i)
             tempVec.push_back(inputVec[i]);
@@ -65,7 +80,7 @@ private:
         for (int size = 1; size <= n; size += size) {
             // cout << "size = " << size << endl;
             // i+size < n ensures that the interval [i+size, i+2*size-1] is not empty
-            for (int i = 0; i+size < n; i += 2 * size) {
+            for (int i = 0; i + size < n; i += 2 * size) {
                 /*
                 cout << "\ti = " << i;
                 cout << "\t\tl = " << i;
@@ -78,4 +93,57 @@ private:
             // cout << "\n-----------------------\n" << endl;
         }
     }
+
+    void _quickSort(vector<int>& inputVec, int l, int r) {
+        if (l >= r) {
+            return;
+        }
+        // arr[l - p-1] < arr[p] and arr[p+1, r] > arr[p]
+        int p = _partition(inputVec, l, r);
+        _quickSort(inputVec, l, p - 1);
+        _quickSort(inputVec, p + 1, r);
+    }
+
+    int _partition(vector<int>& inputVec, int l, int r) {
+        /*
+         the interval of sorting is [l, r]
+         return p where arr[l - p-1] < arr[p] and arr[p+1, r] >= arr[p]
+
+         In case of the input vector is nearly ordered (that result in O(n^2) complexity), we should
+         void directly using l, but randomly select a number from the vector, and swap it with l
+         */
+        swap(inputVec[l], inputVec[rand() % (r - l + 1) + l]);
+        int j{l}, v{inputVec[l]};
+        for (int i = l + 1; i <= r; ++i) {
+            if (inputVec[i] < v) {
+                swap(inputVec[j + 1], inputVec[i]);
+                j++;
+            }
+        }
+        swap(inputVec[l], inputVec[j]);
+        return j;
+    }
+
+    void _optimizedQuickSort(vector<int>& inputVec, int l, int r) {
+        if (r - l <= 15)
+            _insertSort(inputVec, r, l);
+        // arr[l - p-1] < arr[p] and arr[p+1, r] > arr[p]
+        int p = _partition(inputVec, l, r);
+        _quickSort(inputVec, l, p - 1);
+        _quickSort(inputVec, p + 1, r);
+    }
+
+    void _insertSort(vector<int>& inputVec, int l, int r) {
+        // this is an optimized insert sorting where multiple swaps is avoided
+        int curVal;
+        for (int i = l + 1; i <= r; ++i) {
+            curVal = inputVec[i];
+            int j;
+            for (j = i; j > l && curVal < inputVec[j - 1]; j--)
+                inputVec[j] = inputVec[j - 1];
+            inputVec[j] = curVal;
+        }
+    }
+
+
 };

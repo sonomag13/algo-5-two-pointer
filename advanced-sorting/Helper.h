@@ -10,11 +10,11 @@
 
 using namespace std;
 
-static vector<int> generateRandomNum(int n) {
+static vector<int> generateRandomNum(int n, int divisor) {
     vector<int> vecRandomNum;
     srand(time(NULL));
     for (int i = 0; i < n; ++i) {
-        vecRandomNum.push_back(rand() % n);
+        vecRandomNum.push_back(rand() % divisor);
     }
     return vecRandomNum;
 }
