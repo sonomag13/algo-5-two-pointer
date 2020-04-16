@@ -33,7 +33,13 @@ public:
     }
 
     void quickSort2(vector<int>& inputVec) {
+        srand(time(NULL));
+        _quickSort2(inputVec, 0, inputVec.size() - 1);
+    }
 
+    void quickSort3(vector<int>& inputVec) {
+        srand(time(NULL));
+        _quickSort3(inputVec, 0, inputVec.size() - 1);
     }
 
 private:
@@ -145,5 +151,73 @@ private:
         }
     }
 
+    void _quickSort2(vector<int>& inputVec, int l, int r) {
+        if (r - l <= 15) {
+            _insertSort(inputVec, l, r);
+            return;
+        }
+        int p = _partition2(inputVec, l, r);
+        _quickSort2(inputVec, l, p - 1);
+        _quickSort2(inputVec, p + 1, r);
+    }
 
+    int _partition2(vector<int>& inputVec, int l, int r) {
+        swap(inputVec[l], inputVec[rand() % (r - l + 1) + l]);
+        int val = inputVec[l];
+        /*
+          arr[l + 1, ..., i) =< arr[l]
+          arr(j, ... r] >= arr[l]
+         */
+        int i = l + 1, j = r;
+        while (true) {
+            while (i <= r && inputVec[i] < val)
+                i++;
+            while (j >= l + 1 && inputVec[j] > val)
+                j--;
+            if (i > j)
+                break;
+            swap(inputVec[i], inputVec[j]);
+            i++;
+            j--;
+        }
+        swap(inputVec[l], inputVec[j]);
+        return j;
+    }
+
+    void _quickSort3(vector<int>& inputVec, int l, int r) {
+        if (r - l <= 15) {
+            _insertSort(inputVec, l, r);
+            return;
+        }
+        // randomize and set the mark value
+        swap(inputVec[l], inputVec[rand() % (r - l + 1) + l]);
+        int markerVal = inputVec[l], curVal;
+        /*
+            the vector is partitioned into 3 pieces:
+            - arr[l + 1, ... lt] < v
+            - arr[lt + 1, i) == v
+            - arr[gt, r] > v;
+            with initial condition lt = l, [l + 1 ... lt] is empty
+            with initial condition gt = r + 1, [gt, r] is also empty
+         */
+        int lt = l, gt = r + 1;
+        int i = l + 1;
+        while (i < gt) {
+            curVal = inputVec[i];
+            if (curVal == markerVal)
+                i++;
+            if (curVal > markerVal) {
+                swap(inputVec[gt - 1], inputVec[i]);
+                gt--;
+            }
+            if (curVal < markerVal) {
+                swap(inputVec[lt + 1], inputVec[i]);
+                lt++;
+                i++;
+            }
+        }
+        swap(inputVec[l], inputVec[gt - 1]);
+        _quickSort3(inputVec, l, lt);
+        _quickSort3(inputVec, gt, r);
+    }
 };
