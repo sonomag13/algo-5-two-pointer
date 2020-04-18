@@ -13,8 +13,9 @@ int main() {
     int nNum = 1000000;
     int nDiviser = 20;
     clock_t startTime, endTime;
-    vector<int> vecRandNum0 = generateRandomNum(nNum, nDiviser);
+    // vector<int> vecRandNum0 = generateRandomNum(nNum, nNum);
     // vector<int> vecRandNum0 = generateQuasiOrderedNum(nNum, 10);
+    vector<int> vecRandNum0 {-4, -8, 5, 6, 3, -44, -5, -3, 2, 6, 12, 33, 5, 1, 0}; // {2,1,1,2,2}; // {3,2,2,1,4}; //;
     vector<int> vecRandNum1 = duplicateVect(vecRandNum0);
     vector<int> vecRandNum2 = duplicateVect(vecRandNum0);
     vector<int> vecRandNum3 = duplicateVect(vecRandNum0);
@@ -38,23 +39,20 @@ int main() {
     endTime = clock();
     printRunTime("optimized insert sorting", startTime, endTime);
     printSortStatus(isSorted(vecRandNum5));
-     */
-
     // recursive merge sorting - top down
     startTime = clock();
     sortingMethod.recursiveMergeSort(vecRandNum1);
     endTime = clock();
     printRunTime("recursive merge sorting", startTime, endTime);
     printSortStatus(isSorted(vecRandNum1));
+      */
 
     // nonrecursive merge sorting - bottom up
-    /*
     startTime = clock();
     sortingMethod.nonrecursiveMergeSort(vecRandNum2);
     endTime = clock();
     printRunTime("nonrecursive merge sorting", startTime, endTime);
     printSortStatus(isSorted(vecRandNum2));
-     */
 
     // primitive quick sorting
     /*
@@ -74,11 +72,13 @@ int main() {
      */
 
     // 2-way quick sorting
+    /*
     startTime = clock();
     sortingMethod.quickSort2(vecRandNum5);
     endTime = clock();
     printRunTime("2-way quick sort", startTime, endTime);
     printSortStatus(isSorted(vecRandNum5));
+     */
 
     // 3-way quick sort
     startTime = clock();

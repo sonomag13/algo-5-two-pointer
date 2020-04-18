@@ -216,8 +216,10 @@ private:
                 i++;
             }
         }
-        swap(inputVec[l], inputVec[gt - 1]);
+        swap(inputVec[l], inputVec[lt]);
+        lt--;
         _quickSort3(inputVec, l, lt);
         _quickSort3(inputVec, gt, r);
     }
+
 };
