@@ -3,4 +3,4 @@ project(search_kth_largest_element)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(search_kth_largest_element main.cpp)
+add_executable(search_kth_largest_element main.cpp Solution.h)
