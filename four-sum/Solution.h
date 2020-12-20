@@ -44,20 +44,27 @@ public:
         sort(nums.begin(), nums.end());        
         
         // let i, j point two first two numbers, and use l and r for two sum searching        
-        
-        for (int i = 0; i < nums.size() - 3; ++i) {            
+        int i{0}; 
+        while (i < _numsSize - 3) {
+            
+            // skip the duplicated numbers of the i pointer                            
+            int j = i + 1;                 
+            while (j < nums.size() - 2) {                    
+                _findTwoSum(nums, i, j, result);                                         
+                
+                // skip the dublicpated number of the j pointer
+                while (j < _numsSize - 2 && nums[j + 1] == nums[j]) {
+                    j++; 
+                }
+                j++;    // hereby j points to a different number
+            }                
+            
             // skip the duplicated numbers of the i pointer
-            if (i == 0 || nums[i] != nums[i - 1]) {                
-                int j = i + 1;                 
-                while (j < nums.size() - 2) {                    
-                    _findTwoSum(nums, i, j, result);                                         
-                    // skip the dublicpated number of the j pointer
-                    while (j < _numsSize - 2 && nums[j + 1] == nums[j]) {
-                        j++; 
-                    }
-                    j++;    // hereby j points to a different number
-                }                
-            }            
+            while (i < _numsSize - 3 && nums[i + 1] == nums[i]) {
+                i++;
+            } 
+            i++;    
+            
         }
         
         return result; 
@@ -90,21 +97,20 @@ private:
                 r--; 
             }
 
-            if (sum == _target) {                
-                // find a solution
-                result.push_back(vector<int>{nums[i], nums[j], nums[l], nums[r]});                 
-                // skip the duplicated numbers on the left side by increasing l
+            if (sum == _target) {
+                
+                result.push_back(vector<int>{nums[i], nums[j], nums[l], nums[r]}); 
+                
                 while (l < _numsSize - 1 && nums[l] == nums[l + 1]) {
                     l++; 
                 }
-                l++;                
-                // skip the duplicated numbers on the right side by decreasing r
+                l++;
+                
                 while (r > j && nums[r] == nums[r - 1]) {
                     r--;         
                 }
                 r--; 
-            }
-
+            }            
         }        
     }        
     
